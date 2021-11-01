@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>Posts, Vue3 + REST</title>
+    <style>
+        button {
+            margin: 5px 5px 5px 5px
+        }
+    </style>
+</head>
+<body>
+    <h1>Record Shop</h1>
+    <div id="app">
+        <h2>Get All etc (GET)</h2>
+        <input v-model="artistGetBy" placeholder="artist" type="text">
+        <input v-model="sortCriteria" placeholder="sortCriteria" type="text">
+        <button id="getAllButton" v-on:click="getAllRecords(artistGetBy,sortCriteria)" class="btn btn-primary">Get all Records</button>
+        <br />
+        <input v-model="vendorToGetBy" placeholder="vendor" type="text" />
+        <button v-on:click="getByVendor(vendorToGetBy)" class="btn btn-primary">Get by vendor</button>
+        
+        <div id="recordList">
+        <ul v-if="Records.length">
+            <li  v-for="Record in Records">
+                {{Record.id}} {{Record.title}} : {{Record.artist }} {{ Record.year}}
+            </li>
+        </ul>
+    </div>
+        <div v-else>No Records</div>
+
+
+        <h2>Get by ID (GET)</h2>
+        <input v-model="idToGetBy" placeholder="id" type="number" />
+        <button v-on:click="getById(idToGetBy)" class="btn btn-primary">Get by id</button>
+        <div v-if="singleRecord">
+            {{singleRecord.id}} {{singleRecord.vendor}} {{ singleRecord.model}} {{singleRecord.price}}
+        </div>
+        <div v-else>No such Record</div>
+
+        <h2>Delete (DELETE)</h2>
+        <input v-model.number="deleteId" placeholder="id" type="number" />
+        <button v-on:click="deleteRecord(deleteId)" class="btn btn-warning">Delete</button>
+        {{deleteMessage}}
+
+        <h2>Add (POST)</h2>
+        <input v-model="addData.model" placeholder="model" type="text" />
+        <input v-model="addData.vendor" placeholder="vendor" type="text" />
+        <input v-model.number="addData.price" placeholder="price" type="number" />
+        <button v-on:click="addRecord()" class="btn btn-success">Add</button>
+        <div>{{addMessage}}</div>
+
+        <h2>Update (PUT)</h2>
+        <input v-model.number="updateData.id" placeholder="id" type="number" />
+        <input v-model="updateData.model" placeholder="model" type="text" />
+        <input v-model="updateData.vendor" placeholder="vendor" type="text" />
+        <input v-model.number="updateData.price" placeholder="price" type="number" />
+        <button v-on:click="updateRecord()" class="btn btn-success">Update</button>
+        <div>{{updateMessage}}</div>
+    </div>
+    <script src="js/index.js"></script>
+</body>
+</html>
